@@ -10,33 +10,39 @@ def get_soundex_code(c):
     }
     return mapping.get(c, '0')  # Default to '0' for non-mapped characters
 
-
 def initialize_soundex(name):
     if not name:
         return "", ""
     first_letter = name[0].upper()
     return first_letter, get_soundex_code(first_letter)
 
+def should_update_soundex(code, prev_code):
+    return code != '0' and code != prev_code
 
-def process_name_chars(name, soundex, prev_code):
+def update_soundex(char, prev_code, soundex):
+    code = get_soundex_code(char)
+    if should_update_soundex(code, prev_code):
+        return code, soundex + code
+    return prev_code, soundex
+
+def valid_soundex_length(soundex):
+    return len(soundex) < 4
+
+def process_chars(name, prev_code, soundex):
     for char in name[1:]:
-        if len(soundex) >= 4:
+        if valid_soundex_length(soundex):
+            prev_code, soundex = update_soundex(char, prev_code, soundex)
+        else:
             break
-        code = get_soundex_code(char)
-        if code != '0' and code != prev_code:
-            soundex += code
-            prev_code = code
-    return soundex, prev_code
-
+    return soundex
 
 def pad_soundex(soundex):
     return soundex.ljust(4, '0')
 
-
 def generate_soundex(name):
     if not name:
-        return ""
+        return "0000"
 
     soundex, prev_code = initialize_soundex(name)
-    soundex, _ = process_name_chars(name, soundex, prev_code)
+    soundex = process_chars(name, prev_code, soundex)
     return pad_soundex(soundex)
