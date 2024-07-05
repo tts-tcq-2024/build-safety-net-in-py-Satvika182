@@ -10,8 +10,8 @@ class TestSoundex(unittest.TestCase):
         self.assertEqual(generate_soundex("Z"), "Z000")
 
     def test_special_characters(self):
-        self.assertEqual(generate_soundex("A#B"), "A200")
-        self.assertEqual(generate_soundex("B@!#"), "B100")
+        self.assertEqual(generate_soundex("A#B"), "A100")
+        self.assertEqual(generate_soundex("B@!#"), "B000")
         
     def test_words(self):
         self.assertEqual(generate_soundex("Satvika"), "S312")
