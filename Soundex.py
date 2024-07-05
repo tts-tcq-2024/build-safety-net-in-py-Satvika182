@@ -18,8 +18,8 @@ def initialize_soundex(name):
 
 def update_soundex(soundex, prev_code, char):
     code = get_soundex_code(char)
-    soundex += code if code != '0' and code != prev_code else ''
-    prev_code = code if code != '0' and code != prev_code else prev_code
+    soundex += code * (code != '0' and code != prev_code)
+    prev_code = code * (code != '0' and code != prev_code) or prev_code
     return prev_code, soundex
 
 def pad_soundex(soundex):
