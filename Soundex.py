@@ -14,20 +14,25 @@ def get_soundex_code(c, mapping):
 def pad_soundex_code(soundex):
     return soundex.ljust(4, '0')
 
+def process_name(name, mapping):
+    soundex = [name[0].upper()]
+    prev_code = get_soundex_code(soundex[0], mapping)
+    
+    for char in name[1:]:
+        code = get_soundex_code(char, mapping)
+        if code == '0' or code == prev_code:
+            continue
+        soundex.append(code)
+        prev_code = code
+        if len(soundex) == 4:
+            break
+    
+    return ''.join(soundex)
+
 def generate_soundex(name):
     if not name:
         return ""
-
+    
     mapping = get_soundex_mapping()
-    soundex = [name[0].upper()]
-    prev_code = get_soundex_code(soundex[0], mapping)
-
-    for char in name[1:]:
-        code = get_soundex_code(char, mapping)
-        if code != '0' and code != prev_code:
-            soundex.append(code)
-            prev_code = code
-        if len(soundex) == 4:
-            break
-
-    return pad_soundex_code(''.join(soundex))
+    soundex = process_name(name, mapping)
+    return pad_soundex_code(soundex)
