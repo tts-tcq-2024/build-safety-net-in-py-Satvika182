@@ -13,17 +13,20 @@ def get_soundex_code(c):
 
 def initialize_soundex(name):
     if not name:
-        return "", ''
+        return "", ""
     first_letter = name[0].upper()
     return first_letter, get_soundex_code(first_letter)
 
 
-def update_soundex(soundex, prev_code, char):
-    code = get_soundex_code(char)
-    if code != '0' and code != prev_code:
-        soundex += code
-        prev_code = code
-    return prev_code, soundex
+def process_name_chars(name, soundex, prev_code):
+    for char in name[1:]:
+        if len(soundex) >= 4:
+            break
+        code = get_soundex_code(char)
+        if code != '0' and code != prev_code:
+            soundex += code
+            prev_code = code
+    return soundex, prev_code
 
 
 def pad_soundex(soundex):
@@ -35,10 +38,5 @@ def generate_soundex(name):
         return ""
 
     soundex, prev_code = initialize_soundex(name)
-
-    for char in name[1:]:
-        prev_code, soundex = update_soundex(soundex, prev_code, char)
-        if len(soundex) == 4:
-            break
-
+    soundex, _ = process_name_chars(name, soundex, prev_code)
     return pad_soundex(soundex)
