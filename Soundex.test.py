@@ -3,14 +3,35 @@ from Soundex import get_soundex_code, initialize_soundex, update_soundex, pad_so
 
 class TestSoundexFunctions(unittest.TestCase):
 
-    def test_get_soundex_code(self):
+    def test_get_soundex_code_mapped_characters(self):
         self.assertEqual(get_soundex_code('B'), '1')
+        self.assertEqual(get_soundex_code('F'), '1')
+        self.assertEqual(get_soundex_code('P'), '1')
+        self.assertEqual(get_soundex_code('V'), '1')
+        self.assertEqual(get_soundex_code('C'), '2')
+        self.assertEqual(get_soundex_code('G'), '2')
+        self.assertEqual(get_soundex_code('J'), '2')
+        self.assertEqual(get_soundex_code('K'), '2')
+        self.assertEqual(get_soundex_code('Q'), '2')
+        self.assertEqual(get_soundex_code('S'), '2')
+        self.assertEqual(get_soundex_code('X'), '2')
         self.assertEqual(get_soundex_code('Z'), '2')
         self.assertEqual(get_soundex_code('D'), '3')
+        self.assertEqual(get_soundex_code('T'), '3')
         self.assertEqual(get_soundex_code('L'), '4')
         self.assertEqual(get_soundex_code('M'), '5')
+        self.assertEqual(get_soundex_code('N'), '5')
         self.assertEqual(get_soundex_code('R'), '6')
-        self.assertEqual(get_soundex_code('A'), '0')  # Non-mapped character should default to '0'
+
+    def test_get_soundex_code_non_mapped_character(self):
+        self.assertEqual(get_soundex_code('A'), '0')
+        self.assertEqual(get_soundex_code('E'), '0')
+        self.assertEqual(get_soundex_code('H'), '0')
+        self.assertEqual(get_soundex_code('I'), '0')
+        self.assertEqual(get_soundex_code('O'), '0')
+        self.assertEqual(get_soundex_code('U'), '0')
+        self.assertEqual(get_soundex_code('Y'), '0')
+        self.assertEqual(get_soundex_code('W'), '0')
 
     def test_initialize_soundex_empty_name(self):
         self.assertEqual(initialize_soundex(""), ("", "0"))
@@ -23,7 +44,7 @@ class TestSoundexFunctions(unittest.TestCase):
         self.assertEqual(update_soundex("J", "2", "J"), ("2", "J"))
 
     def test_update_soundex_change(self):
-        self.assertEqual(update_soundex("J", "2", "C"), ("2", "JC"))
+        self.assertEqual(update_soundex("2", "2", "C"), ("2", "2C"))
 
     def test_pad_soundex_short_code(self):
         self.assertEqual(pad_soundex("J"), "J000")
@@ -51,4 +72,3 @@ class TestSoundexFunctions(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
