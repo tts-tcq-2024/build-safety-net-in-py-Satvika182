@@ -22,13 +22,12 @@ def process_name(name, mapping):
 
     for char in name[1:]:
         code = get_soundex_code(char, mapping)
-        if code == '0' or code == prev_code:
-            continue
-        append_code(code)
-        prev_code = code
-        code_length += 1
-        if code_length == 4:
-            break
+        if code != '0' and code != prev_code:
+            append_code(code)
+            prev_code = code
+            code_length += 1
+            if code_length == 4:
+                break
 
     return ''.join(soundex)
 
