@@ -23,16 +23,12 @@ def generate_soundex(name):
     soundex = [first_letter]
     prev_code = get_soundex_code(first_letter, mapping)
 
-    def process_char(char):
-        nonlocal prev_code
+    for char in name[1:]:
         code = get_soundex_code(char, mapping)
         if code != '0' and code != prev_code:
             soundex.append(code)
             prev_code = code
-        return len(soundex) == 4
-
-    for char in name[1:]:
-        if process_char(char):
+        if len(soundex) >= 4:
             break
 
     return pad_soundex_code(''.join(soundex))
