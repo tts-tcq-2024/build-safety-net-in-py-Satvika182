@@ -17,19 +17,18 @@ def pad_soundex_code(soundex):
 def process_name(name, mapping):
     soundex = [name[0].upper()]
     prev_code = get_soundex_code(soundex[0], mapping)
-    append_code = soundex.append
     code_length = 1
 
     for char in name[1:]:
         code = get_soundex_code(char, mapping)
         if code != '0' and code != prev_code:
-            append_code(code)
+            soundex.append(code)
             prev_code = code
             code_length += 1
             if code_length == 4:
                 break
 
-    return ''.join(soundex)
+    return ''.join(soundex)[:4].ljust(4, '0')
 
 def generate_soundex(name):
     if not name:
@@ -37,4 +36,4 @@ def generate_soundex(name):
     
     mapping = get_soundex_mapping()
     soundex = process_name(name, mapping)
-    return pad_soundex_code(soundex)
+    return soundex
