@@ -41,7 +41,7 @@ class TestSoundexFunctions(unittest.TestCase):
         self.assertEqual(initialize_soundex("Washington"), ("W", "2"))
 
     def test_update_soundex_no_change(self):
-        self.assertEqual(update_soundex("J", "2", "J"), ("2", "J"))
+        self.assertEqual(update_soundex("2", "2", "J"), ("2", "2"))
 
     def test_update_soundex_change(self):
         self.assertEqual(update_soundex("2", "2", "C"), ("2", "2C"))
