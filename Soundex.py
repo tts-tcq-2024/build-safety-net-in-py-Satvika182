@@ -22,19 +22,20 @@ def should_update_soundex(code, prev_code):
 def update_soundex(char, prev_code, soundex):
     code = get_soundex_code(char)
     if should_update_soundex(code, prev_code):
-        return code, soundex + code
+        soundex += code
+        prev_code = code
     return prev_code, soundex
 
-def valid_soundex_length(soundex):
-    return len(soundex) < 4
-
-def process_chars(name, prev_code, soundex):
+def char_generator(name):
     for char in name[1:]:
-        if valid_soundex_length(soundex):
-            prev_code, soundex = update_soundex(char, prev_code, soundex)
-        else:
+        yield char
+
+def process_name_chars(name, soundex, prev_code):
+    for char in char_generator(name):
+        if len(soundex) >= 4:
             break
-    return soundex
+        prev_code, soundex = update_soundex(char, prev_code, soundex)
+    return soundex, prev_code
 
 def pad_soundex(soundex):
     return soundex.ljust(4, '0')
@@ -44,5 +45,5 @@ def generate_soundex(name):
         return "0000"
 
     soundex, prev_code = initialize_soundex(name)
-    soundex = process_chars(name, prev_code, soundex)
+    soundex, _ = process_name_chars(name, soundex, prev_code)
     return pad_soundex(soundex)
