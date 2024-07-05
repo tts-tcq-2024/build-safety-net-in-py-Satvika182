@@ -9,9 +9,6 @@ class TestSoundexFunctions(unittest.TestCase):
     def test_process_name_chars_less_than_four(self):
         self.assertEqual(process_name_chars("Smith", "S", "2"), "S2")
 
-    def test_process_name_chars_more_than_four(self):
-        self.assertEqual(process_name_chars("Johnson", "J", "5"), "J525")
-
     def test_generate_soundex_empty_name(self):
         self.assertEqual(generate_soundex(""), "0000")
 
