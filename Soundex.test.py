@@ -16,6 +16,9 @@ class TestSoundex(unittest.TestCase):
     def test_words(self):
         self.assertEqual(generate_soundex("Satvika"), "S312")
 
+    def test_vowels(self):
+        self.assertEqual(generate_soundex("AEIOU"), "A000")
+
     
 if __name__ == '__main__':
     unittest.main()
