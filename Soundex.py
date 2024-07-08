@@ -11,8 +11,6 @@ def get_soundex_code(c):
     return mapping.get(c, '0')  # Default to '0' for non-mapped characters
 
 def initialize_soundex(name):
-    if not name:
-        return "", ""
     first_letter = name[0].upper()
     return first_letter, get_soundex_code(first_letter)
 
